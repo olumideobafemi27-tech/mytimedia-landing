@@ -1,0 +1,8 @@
+{
+  "name": "2-Day Live WhatsApp AI PDF Bootcamp",
+  "description": "Watch my screen live. Copy my steps. Launch your automated AI PDF business this weekend.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
