@@ -1,677 +1,144 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { 
-  ShieldCheck, 
-  Flame, 
-  Clock, 
-  CheckCircle2, 
-  XCircle, 
-  AlertTriangle, 
-  Sparkles, 
-  ChevronDown, 
-  ChevronUp, 
-  ArrowRight, 
-  Zap, 
-  BookOpen, 
-  Video, 
-  Layout, 
-  BarChart3, 
-  Gift, 
-  Lock, 
-  MessageCircle,
-  Smartphone,
-  Star,
-  Users,
-  Check
-} from "lucide-react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-Day Live WhatsApp AI PDF Bootcamp</title>
+    <script src="https://tailwindcss.com"></script>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#111827] text-gray-100 antialiased pt-12 md:pt-14">
 
-export default function App() {
-  const [timeLeft, setTimeLeft] = useState("12h : 00m : 00s");
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-
-  useEffect(() => {
-    const COUNTDOWN_TIME = 12 * 60 * 60 * 1000;
-    let targetTime = localStorage.getItem("bootcamp_target_time");
-
-    if (!targetTime) {
-      const newTarget = new Date().getTime() + COUNTDOWN_TIME;
-      localStorage.setItem("bootcamp_target_time", newTarget.toString());
-      targetTime = newTarget.toString();
-    }
-
-    const parsedTarget = parseInt(targetTime, 10);
-
-    const updateTimer = () => {
-      const now = new Date().getTime();
-      let diff = parsedTarget - now;
-
-      if (diff <= 0) {
-        const nextTarget = new Date().getTime() + COUNTDOWN_TIME;
-        localStorage.setItem("bootcamp_target_time", nextTarget.toString());
-        diff = COUNTDOWN_TIME;
-      }
-
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      const hStr = String(hours).padStart(2, "0");
-      const mStr = String(minutes).padStart(2, "0");
-      const sStr = String(seconds).padStart(2, "0");
-
-      const formatted = `${hStr}h : ${mStr}m : ${sStr}s`;
-      setTimeLeft(formatted);
-
-      // Keep index.html element updated if present
-      const el = document.getElementById("timer-display");
-      if (el) el.textContent = formatted;
-    };
-
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleCtaClick = (locationName: string) => {
-    if (typeof window !== "undefined") {
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      (window as any).dataLayer.push({
-        event: "Click",
-        category: "CTA Button",
-        action: "Redirect Click",
-        label: locationName,
-        targetUrl: "https://www.mytimedia.com.ng"
-      });
-    }
-    window.location.href = "https://www.mytimedia.com.ng";
-  };
-
-  const toggleFaq = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
-  };
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500 selection:text-slate-950">
-      
-      {/* 1. TOP FIXED ANNOUNCEMENT BANNER */}
-      <header className="sticky top-0 z-50 bg-red-600 text-white shadow-xl border-b border-red-700">
-        <div className="max-w-7xl mx-auto py-2.5 px-4 text-center font-mono font-bold tracking-wider text-xs sm:text-sm md:text-base flex items-center justify-center gap-2">
-          <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300 animate-pulse shrink-0" />
-          <span>
-            🚨 WARNING: Live WhatsApp Screen-Share Room access tokens expire, and registration closes forever in:{" "}
-            <span id="timer-display" className="bg-red-800/80 px-2.5 py-0.5 rounded text-amber-300 font-extrabold border border-red-500/50 inline-block my-0.5">
-              {timeLeft}
-            </span>
-          </span>
+    <!-- FIXED COUNTDOWN BANNER -->
+    <header class="fixed top-0 left-0 w-full bg-red-600 text-white z-50 shadow-md">
+        <div class="text-center font-mono font-bold tracking-wider text-xs md:text-sm py-2 px-4">
+            🚨 WARNING: Live WhatsApp Screen-Share Room access tokens expire, and registration closes forever in: <span id="timer-display" class="bg-black bg-opacity-30 px-2 py-0.5 rounded text-yellow-300">12h : 00m : 00s</span>
         </div>
-      </header>
+    </header>
 
-      {/* Navigation / Header Bar */}
-      <nav className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 py-3.5 px-4 sticky top-[41px] z-40">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-black text-lg shadow-inner">
-              <MessageCircle className="w-5 h-5 text-emerald-400 fill-emerald-500/20" />
-            </div>
-            <div>
-              <span className="font-extrabold tracking-tight text-white text-base md:text-lg block leading-none">
-                AI PDF <span className="text-emerald-400">Bootcamp</span>
-              </span>
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">2-Day Live WhatsApp Cohort</span>
-            </div>
-          </div>
-          <a
-            href="https://www.mytimedia.com.ng"
-            onClick={(e) => {
-              e.preventDefault();
-              handleCtaClick("Header Nav CTA");
-            }}
-            className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold text-xs sm:text-sm py-2 px-4 rounded-lg transition-all shadow-md shadow-emerald-500/20 active:scale-95"
-          >
-            <span>Secure Seat</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
+    <!-- HERO SECTION -->
+    <section class="relative max-w-5xl mx-auto px-4 pt-12 pb-16 text-center">
+        <span class="inline-block bg-emerald-500/10 text-emerald-400 font-bold text-xs md:text-sm px-4 py-1.5 rounded-full border border-emerald-500/20 mb-6 uppercase tracking-widest">
+            100% Practical Implementation Lab
+        </span>
+        <h1 class="text-3xl md:text-6xl font-extrabold tracking-tight leading-tight text-white mb-6">
+            Watch My Screen Live. Copy My Steps. <br class="hidden md:inline">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Launch Your Automated AI PDF Business</span> This Weekend.
+        </h1>
+        <p class="text-base md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+            A highly intense, 2-Day WhatsApp Live Screen-Share Bootcamp. No Writing Skills, Technical Prior Experience, or Paid Premium Tools Required.
+        </p>
+        <div class="mb-4">
+            <a href="https://mytimedia.com.ng" class="inline-block w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-base md:text-lg px-8 py-4 rounded-xl shadow-lg shadow-emerald-500/20 transform hover:-translate-y-0.5 transition-all text-center">
+                👉 SECURE YOUR SEAT & WORKBOOK NOW! 👈
+            </a>
         </div>
-      </nav>
+        <p class="text-xs text-gray-500">Safe checkout processed via Flutterwave Payments</p>
+    </section>
 
-      <main className="space-y-16 md:space-y-24 pb-20">
-
-        {/* 2. HERO TITLE SECTION */}
-        <section className="relative pt-10 md:pt-16 pb-12 md:pb-20 px-4 overflow-hidden border-b border-slate-800/60 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950">
-          {/* Subtle Ambient Glow */}
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 md:w-[600px] h-96 md:h-[600px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
-
-          <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
-            
-            {/* Live Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-emerald-400 text-xs md:text-sm font-semibold tracking-wide shadow-sm">
-              <span className="flex h-2.5 w-2.5 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-              </span>
-              <span>LIVE SCREEN-SHARE BOOTCAMP · 100% INTERACTIVE WITH LIVE Q&A</span>
-            </div>
-
-            {/* Main Heading */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.15] max-w-4xl mx-auto">
-              Watch My Screen Live. Copy My Steps.{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 underline decoration-emerald-500/40 decoration-wavy underline-offset-8">
-                Launch Your Automated AI PDF Business
-              </span>{" "}
-              This Weekend.
-            </h1>
-
-            {/* Subheading */}
-            <p className="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed pt-2">
-              A 100% Practical, 100% Interactive 2-Day WhatsApp Live Screen-Share Bootcamp with Questions & Answers Session. No Writing Skills, Technical Experience, or Paid Tools Required.
-            </p>
-
-            {/* Hero Quick Highlights Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 max-w-4xl mx-auto pt-4 text-left">
-              <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-3 flex items-center gap-2.5">
-                <Smartphone className="w-5 h-5 text-emerald-400 shrink-0" />
-                <span className="text-xs text-slate-200 font-medium">100% Phone Compatible</span>
-              </div>
-              <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-3 flex items-center gap-2.5">
-                <Video className="w-5 h-5 text-emerald-400 shrink-0" />
-                <span className="text-xs text-slate-200 font-medium">Live Screen-Share</span>
-              </div>
-              <div className="bg-slate-900/80 border border-emerald-500/40 bg-emerald-950/20 rounded-xl p-3 flex items-center gap-2.5 col-span-2 lg:col-span-1">
-                <MessageCircle className="w-5 h-5 text-emerald-400 shrink-0" />
-                <span className="text-xs text-emerald-300 font-bold">100% Interactive Q&A Session</span>
-              </div>
-              <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-3 flex items-center gap-2.5">
-                <Zap className="w-5 h-5 text-emerald-400 shrink-0" />
-                <span className="text-xs text-slate-200 font-medium">No Paid Tools Needed</span>
-              </div>
-              <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-3 flex items-center gap-2.5">
-                <Users className="w-5 h-5 text-emerald-400 shrink-0" />
-                <span className="text-xs text-slate-200 font-medium">Exclusive VIP Room</span>
-              </div>
-            </div>
-
-            {/* Prominent CTA Button */}
-            <div className="pt-6 pb-2">
-              <a
-                href="https://www.mytimedia.com.ng"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCtaClick("Hero Main Button");
-                }}
-                className="inline-flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-lg sm:text-xl md:text-2xl py-4 sm:py-5 px-6 sm:px-10 rounded-2xl shadow-xl shadow-emerald-500/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto text-center border-2 border-emerald-400"
-              >
-                <span>👉 SECURE YOUR SEAT & WORKBOOK NOW! 👈</span>
-              </a>
-              <div className="mt-3 flex items-center justify-center gap-4 text-xs text-slate-400">
-                <span className="flex items-center gap-1.5"><Lock className="w-3.5 h-3.5 text-emerald-400" /> Instant VIP Group Delivery</span>
-                <span>•</span>
-                <span>Limited 7 Seats Left</span>
-              </div>
-            </div>
-
-            {/* Social Proof Banner */}
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400">
-              <div className="flex -space-x-2 overflow-hidden">
-                <img className="inline-block h-8 w-8 rounded-full ring-2 ring-slate-900" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" alt="Member" />
-                <img className="inline-block h-8 w-8 rounded-full ring-2 ring-slate-900" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Member" />
-                <img className="inline-block h-8 w-8 rounded-full ring-2 ring-slate-900" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=100" alt="Member" />
-                <img className="inline-block h-8 w-8 rounded-full ring-2 ring-slate-900" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100" alt="Member" />
-              </div>
-              <div className="flex items-center gap-1 text-amber-400">
-                <Star className="w-4 h-4 fill-amber-400" />
-                <Star className="w-4 h-4 fill-amber-400" />
-                <Star className="w-4 h-4 fill-amber-400" />
-                <Star className="w-4 h-4 fill-amber-400" />
-                <Star className="w-4 h-4 fill-amber-400" />
-              </div>
-              <span className="text-slate-300 font-medium">Joined by 1,420+ Nigerian Creators & Action Takers</span>
-            </div>
-
-          </div>
-        </section>
-
-        {/* 3. AGITATE THE PROBLEM SECTION */}
-        <section className="max-w-5xl mx-auto px-4">
-          <div className="bg-slate-900/90 rounded-3xl border border-red-500/30 p-6 sm:p-10 relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-red-950/80 text-red-400 border border-red-800/60">
-                <AlertTriangle className="w-3.5 h-3.5 text-red-400" /> Reality Check
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                The Digital Product Trap: Why 95% of People Make Exactly 0 NGN Online
-              </h2>
-              <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-                Most aspiring creators waste months on complicated tools and end up with zero sales. Here is why the standard approach fails completely:
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Failure 1 */}
-              <div className="bg-slate-950/80 rounded-2xl p-6 border border-slate-800 space-y-4 hover:border-red-500/40 transition-colors">
-                <div className="w-10 h-10 rounded-xl bg-red-950/60 border border-red-800/60 flex items-center justify-center text-red-400 font-bold shrink-0">
-                  <XCircle className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-white">1. Writing Without Validation Data</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Spending 6 weeks manually writing a 50-page ebook on a topic nobody searched for or actually wants to spend money on.
-                </p>
-              </div>
-
-              {/* Failure 2 */}
-              <div className="bg-slate-950/80 rounded-2xl p-6 border border-slate-800 space-y-4 hover:border-red-500/40 transition-colors">
-                <div className="w-10 h-10 rounded-xl bg-red-950/60 border border-red-800/60 flex items-center justify-center text-red-400 font-bold shrink-0">
-                  <XCircle className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-white">2. Complex Page Builders & Tech Bloat</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Getting bogged down by expensive monthly domain subscriptions, hosting fees, and broken sales funnels that never launch.
-                </p>
-              </div>
-
-              {/* Failure 3 */}
-              <div className="bg-slate-950/80 rounded-2xl p-6 border border-slate-800 space-y-4 hover:border-red-500/40 transition-colors">
-                <div className="w-10 h-10 rounded-xl bg-red-950/60 border border-red-800/60 flex items-center justify-center text-red-400 font-bold shrink-0">
-                  <XCircle className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-white">3. Clicking Facebook "Boost Post" Traps</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Wasting tens of thousands of Naira on vanity likes and random clicks with zero actual WhatsApp buyer conversations.
-                </p>
-              </div>
-            </div>
-
-            {/* The Solution Transition Banner */}
-            <div className="mt-8 pt-6 border-t border-slate-800 bg-slate-950/50 rounded-2xl p-5 text-center flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-left space-y-1">
-                <span className="text-emerald-400 font-bold text-sm flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4" /> The 2-Day WhatsApp Solution:
-                </span>
-                <p className="text-slate-300 text-xs sm:text-sm">
-                  We skip the theory. Watch my screen live as we generate high-demand AI PDFs, build 3D covers, and set up live ads.
-                </p>
-              </div>
-              <a
-                href="https://www.mytimedia.com.ng"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCtaClick("Problem Section CTA");
-                }}
-                className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm py-2.5 px-5 rounded-xl shrink-0 transition-all shadow-md shadow-emerald-500/20"
-              >
-                Get The Solution Now
-              </a>
-            </div>
-
-          </div>
-        </section>
-
-        {/* 4. 2-DAY SCHEDULE TIMELINE LAYOUT */}
-        <section className="max-w-5xl mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
-            <span className="text-emerald-400 text-xs font-bold tracking-widest uppercase bg-emerald-950/60 border border-emerald-800/60 px-3.5 py-1 rounded-full">
-              Complete Step-by-Step Curriculum
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              2-Day WhatsApp Live Screen-Share Schedule
+    <!-- THE PROBLEM SECTION -->
+    <section class="bg-[#1F2937] border-y border-gray-800 py-16 px-4">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl md:text-4xl font-extrabold text-center text-white mb-4">
+                The Digital Product Trap
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base">
-              Follow along directly on your mobile screen or laptop as we build the complete automated AI PDF system live.
+            <p class="text-red-400 font-bold text-center text-base md:text-lg mb-8 uppercase tracking-wider">
+                Why 95% of Online Product Sellers Make Exactly $0 Online
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* DAY 1 */}
-            <div className="bg-slate-900 rounded-3xl border border-slate-800 p-6 sm:p-8 space-y-6 relative overflow-hidden shadow-xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-emerald-500 text-slate-950 font-black flex items-center justify-center text-lg">
-                    D1
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-extrabold text-white">DAY 1: Creation & Storefront</h3>
-                    <span className="text-xs text-emerald-400 font-semibold">Live Screen-Share Session</span>
-                  </div>
+            <div class="space-y-4 text-gray-300 text-sm md:text-base">
+                <div class="flex items-start bg-[#111827] p-4 rounded-xl border border-gray-800">
+                    <span class="text-red-500 font-bold mr-3 text-lg">❌</span>
+                    <p>Most creators spend painful weeks typing out massive 100-page textbooks, launch it to total silence, and never generate a single dollar.</p>
                 </div>
-                <span className="text-xs font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">2 Sessions</span>
-              </div>
-
-              <div className="space-y-6">
-                {/* Day 1 - Session 1 */}
-                <div className="bg-slate-950/70 rounded-2xl p-5 border border-slate-800/80 space-y-3">
-                  <div className="flex items-center gap-2 text-emerald-400 text-xs font-extrabold uppercase tracking-wider">
-                    <BookOpen className="w-4 h-4" /> Session 1: Niche Discovery & Rapid AI Writing
-                  </div>
-                  <h4 className="text-base font-bold text-white">Prompt Engineering with Claude AI</h4>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span>Identifying high-converting niche topics in Nigeria that people are actively searching to buy right now.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span>Using Claude AI to outline, write, and structure comprehensive 20+ page PDF ebooks in under 30 minutes.</span>
-                    </li>
-                  </ul>
+                <div class="flex items-start bg-[#111827] p-4 rounded-xl border border-gray-800">
+                    <span class="text-red-500 font-bold mr-3 text-lg">❌</span>
+                    <p>They blindly guess what topics audiences want instead of leveraging real validation data to pull out high-demand market problems.</p>
                 </div>
-
-                {/* Day 1 - Session 2 */}
-                <div className="bg-slate-950/70 rounded-2xl p-5 border border-slate-800/80 space-y-3">
-                  <div className="flex items-center gap-2 text-emerald-400 text-xs font-extrabold uppercase tracking-wider">
-                    <Layout className="w-4 h-4" /> Session 2: Canva 3D Mockup Styling & Storefront
-                  </div>
-                  <h4 className="text-base font-bold text-white">3D Book Covers & Automated Payment Portals</h4>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span>Converting raw text into eye-catching PDF layouts using 100% free Canva templates.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span>Creating photorealistic 3D book cover graphics and setting up your automated instant-payout storefront.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span className="text-emerald-300 font-semibold">100% Interactive Class Segment: Live Questions & Answers (Q&A) session to review your setup.</span>
-                    </li>
-                  </ul>
+                <div class="flex items-start bg-[#111827] p-4 rounded-xl border border-gray-800">
+                    <span class="text-red-500 font-bold mr-3 text-lg">❌</span>
+                    <p>They battle complicated software, landing page builders, and monthly subscriptions before making their first online sale.</p>
                 </div>
-              </div>
+                <div class="flex items-start bg-[#111827] p-4 rounded-xl border border-gray-800">
+                    <span class="text-red-500 font-bold mr-3 text-lg">❌</span>
+                    <p>They waste hard-earned budgets on Facebook "Boost Post" buttons that only generate empty likes instead of direct purchase tracking.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE SCHEDULE SECTION -->
+    <section class="max-w-4xl mx-auto px-4 py-16">
+        <h2 class="text-2xl md:text-4xl font-extrabold text-center text-white mb-12">
+            The 2-Day Complete Timeline Schedule
+        </h2>
+        
+        <div class="space-y-12">
+            <!-- DAY 1 -->
+            <div class="bg-[#1F2937] rounded-2xl p-6 md:p-8 border border-gray-800 relative">
+                <span class="absolute -top-4 left-6 bg-emerald-500 text-white font-bold text-xs uppercase px-4 py-1 rounded-full tracking-wider shadow">Day 1: The Asset Engine</span>
+                <div class="mt-4 space-y-6">
+                    <div>
+                        <h4 class="text-emerald-400 font-bold text-sm uppercase tracking-wide">🕒 Session 1: Niche Discovery & Rapid AI Writing (2 Hours)</h4>
+                        <p class="text-gray-300 text-sm md:text-base mt-1">Watch my computer screen live as we run advanced prompts through Claude AI to isolate profitable topics, structure an actionable 5-chapter course flow, and write a human-sounding text manuscript line-by-line.</p>
+                    </div>
+                    <div class="border-t border-gray-800 pt-4">
+                        <h4 class="text-emerald-400 font-bold text-sm uppercase tracking-wide">🕒 Session 2: Canva Formatting & Automated Storefronts (2 Hours)</h4>
+                        <p class="text-gray-300 text-sm md:text-base mt-1">We paste our draft text into premium Canva layouts, apply visual breakout boxes, and instantly generate a 3D digital book cover mockup asset. Then, we connect our automated checkout portal to start receiving transactions.</p>
+                    </div>
+                </div>
             </div>
 
-            {/* DAY 2 */}
-            <div className="bg-slate-900 rounded-3xl border border-slate-800 p-6 sm:p-8 space-y-6 relative overflow-hidden shadow-xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-teal-400 text-slate-950 font-black flex items-center justify-center text-lg">
-                    D2
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-extrabold text-white">DAY 2: Meta Ads & Automation</h3>
-                    <span className="text-xs text-teal-300 font-semibold">Live Screen-Share Session</span>
-                  </div>
+            <!-- DAY 2 -->
+            <div class="bg-[#1F2937] rounded-2xl p-6 md:p-8 border border-gray-800 relative">
+                <span class="absolute -top-4 left-6 bg-blue-500 text-white font-bold text-xs uppercase px-4 py-1 rounded-full tracking-wider shadow">Day 2: The Traffic Faucet</span>
+                <div class="mt-4 space-y-6">
+                    <div>
+                        <h4 class="text-blue-400 font-bold text-sm uppercase tracking-wide">🕒 Session 1: Launching Your Live $5/Day Meta Ad (2 Hours)</h4>
+                        <p class="text-gray-300 text-sm md:text-base mt-1">We open Meta Ads Manager live together. I will show you how to navigate past dangerous marketing traps, set a safe $5 budget, configure target parameters, deploy high-converting ad copy, and push your ad campaigns live.</p>
+                    </div>
+                    <div class="border-t border-gray-800 pt-4">
+                        <h4 class="text-blue-400 font-bold text-sm uppercase tracking-wide">🕒 Session 2: Data Diagnostics & Backend Email Systems (2 Hours)</h4>
+                        <p class="text-gray-300 text-sm md:text-base mt-1">Learn to read data analytics columns like a true business operator. We will look at real dashboards to track your click rates, and then deploy automated email sequences to turn single buyers into long-term repeat customers.</p>
+                    </div>
                 </div>
-                <span className="text-xs font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">2 Sessions</span>
-              </div>
-
-              <div className="space-y-6">
-                {/* Day 2 - Session 1 */}
-                <div className="bg-slate-950/70 rounded-2xl p-5 border border-slate-800/80 space-y-3">
-                  <div className="flex items-center gap-2 text-teal-300 text-xs font-extrabold uppercase tracking-wider">
-                    <Zap className="w-4 h-4" /> Session 1: Launching Your Live $5/Day Meta Sales Ad Target
-                  </div>
-                  <h4 className="text-base font-bold text-white">High-Converting Facebook & Instagram Traffic</h4>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-teal-300 shrink-0 mt-0.5" />
-                      <span>Setting up low-budget Meta ads targeting audience segments with high buying intent.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-teal-300 shrink-0 mt-0.5" />
-                      <span>Writing direct-response ad copy and creating video/image hooks that convert scrollers into sales.</span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Day 2 - Session 2 */}
-                <div className="bg-slate-950/70 rounded-2xl p-5 border border-slate-800/80 space-y-3">
-                  <div className="flex items-center gap-2 text-teal-300 text-xs font-extrabold uppercase tracking-wider">
-                    <BarChart3 className="w-4 h-4" /> Session 2: Live Data Dashboard & Email Automation
-                  </div>
-                  <h4 className="text-base font-bold text-white">Ad Diagnostics & 24/7 Hands-Free Delivery</h4>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-teal-300 shrink-0 mt-0.5" />
-                      <span>Reading ad metrics live on screen and optimizing campaigns to reduce cost-per-purchase.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-teal-300 shrink-0 mt-0.5" />
-                      <span>Setting up automated email delivery so buyers receive their PDF product instantly, even while you sleep.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-teal-300 shrink-0 mt-0.5" />
-                      <span className="text-teal-300 font-semibold">100% Interactive Class Segment: Direct Questions & Answers (Q&A) session to resolve all technical questions live.</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
             </div>
-          </div>
-        </section>
+        </div>
+    </section>
 
-        {/* 5. PREMIUM VALUE BONUSES CONTAINER */}
-        <section className="max-w-5xl mx-auto px-4">
-          <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 rounded-3xl border border-emerald-500/40 p-6 sm:p-10 relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 bg-emerald-500 text-slate-950 font-black text-xs uppercase px-6 py-2 rounded-bl-2xl shadow-md">
-              Over 80,000 NGN Value Included Free
-            </div>
-
-            <div className="text-center max-w-2xl mx-auto mb-10 space-y-3">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">
-                <Gift className="w-3.5 h-3.5 text-emerald-400" /> Exclusive Fast-Action Toolkit
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Premium Value Bonuses Included Free
-              </h2>
-              <p className="text-slate-300 text-sm sm:text-base">
-                Get full instant access to these battle-tested resources when you reserve your seat today:
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Bonus 1 */}
-              <div className="bg-slate-950 rounded-2xl p-6 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-emerald-500/50 transition-colors">
-                <div className="space-y-3">
-                  <div className="inline-block px-3 py-1 rounded-lg bg-emerald-950 text-emerald-400 font-mono text-xs font-bold border border-emerald-800">
-                    Bonus #1
-                  </div>
-                  <h3 className="text-lg font-bold text-white">The Plug-and-Play Master Prompt Vault</h3>
-                  <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
-                    Exact copy-paste prompts for Claude AI & ChatGPT to generate high-demand niche PDF outlines, chapter texts, and engaging titles.
-                  </p>
+    <!-- VALUE BONUSES CONTAINER -->
+    <section class="bg-[#1F2937] border-t border-gray-800 py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-4xl font-extrabold text-center text-white mb-2">
+                Exclusive Premium Value Bonuses
+            </h2>
+            <p class="text-gray-400 text-center text-sm md:text-base mb-10">Included for free immediately upon registration today</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[#111827] p-6 rounded-xl border border-gray-800">
+                    <span class="text-2xl mb-3 block">🎁</span>
+                    <h4 class="font-bold text-white text-base mb-2">Bonus #1: The Prompt Vault</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Copy-and-paste text commands to generate outlines, book text, and direct-response marketing scripts instantly ($97 Value).</p>
                 </div>
-                <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
-                  <span className="text-slate-500 text-xs">Standalone Value</span>
-                  <span className="text-emerald-400 font-extrabold text-sm font-mono">20,000 NGN</span>
+                <div class="bg-[#111827] p-6 rounded-xl border border-gray-800">
+                    <span class="text-2xl mb-3 block">🎁</span>
+                    <h4 class="font-bold text-white text-base mb-2">Bonus #2: Canva Templates</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Skip design headaches. Drag-and-drop structural document templates optimized fully for high mobile readability ($47 Value).</p>
                 </div>
-              </div>
-
-              {/* Bonus 2 */}
-              <div className="bg-slate-950 rounded-2xl p-6 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-emerald-500/50 transition-colors">
-                <div className="space-y-3">
-                  <div className="inline-block px-3 py-1 rounded-lg bg-emerald-950 text-emerald-400 font-mono text-xs font-bold border border-emerald-800">
-                    Bonus #2
-                  </div>
-                  <h3 className="text-lg font-bold text-white">High-Converting ChatGPT Ebook Layout Templates</h3>
-                  <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
-                    Ready-to-edit Canva templates designed specifically for rapid PDF formatting, clean typography, and professional cover styling.
-                  </p>
+                <div class="bg-[#111827] p-6 rounded-xl border border-gray-800">
+                    <span class="text-2xl mb-3 block">🎁</span>
+                    <h4 class="font-bold text-white text-base mb-2">Bonus #3: Copy Swipe File</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">A massive collection of proven sales headlines, psychological hooks, and landing page wireframes ready to launch ($147 Value).</p>
                 </div>
-                <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
-                  <span className="text-slate-500 text-xs">Standalone Value</span>
-                  <span className="text-emerald-400 font-extrabold text-sm font-mono">10,000 NGN</span>
-                </div>
-              </div>
-
-              {/* Bonus 3 */}
-              <div className="bg-slate-950 rounded-2xl p-6 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-emerald-500/50 transition-colors">
-                <div className="space-y-3">
-                  <div className="inline-block px-3 py-1 rounded-lg bg-emerald-950 text-emerald-400 font-mono text-xs font-bold border border-emerald-800">
-                    Bonus #3
-                  </div>
-                  <h3 className="text-lg font-bold text-white">The Direct-Response Sales Copy Swipe File</h3>
-                  <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
-                    Proven ad templates, landing page headlines, and email follow-up sequences that convert scrollers into paying customers.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
-                  <span className="text-slate-500 text-xs">Standalone Value</span>
-                  <span className="text-emerald-400 font-extrabold text-sm font-mono">50,000 NGN</span>
-                </div>
-              </div>
             </div>
+        </div>
+    </section>
 
-          </div>
-        </section>
+    <!-- FINAL PRICING & CLOSING SCARCITY -->
+    <section class="max-w-3xl mx-auto px-4 py-16 text-center">
 
-        {/* 6. FINAL SCARCITY CLOSING BLOCK */}
-        <section className="max-w-4xl mx-auto px-4">
-          <div className="bg-slate-900 rounded-3xl border-2 border-emerald-500 p-8 sm:p-12 text-center space-y-8 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-
-            {/* Scarcity Tag */}
-            <div className="inline-flex items-center gap-2 bg-red-950/90 text-red-400 border border-red-700/80 px-4 py-2 rounded-full font-extrabold text-xs sm:text-sm tracking-wide animate-pulse">
-              <Flame className="w-4 h-4 text-red-400" />
-              <span>⚠️ ONLY 7 SEATS REMAINING FOR THIS WEEKEND'S COHORT</span>
-            </div>
-
-            {/* Title */}
-            <div className="space-y-3">
-              <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-                Secure Your Spot & Workbook Today
-              </h2>
-              <p className="text-slate-300 text-base sm:text-lg max-w-xl mx-auto">
-                Get full live access to the 2-Day WhatsApp Screen-Share Room, complete recordings, plus all 3 premium bonus vaults.
-              </p>
-            </div>
-
-            {/* Pricing Box */}
-            <div className="bg-slate-950/80 max-w-md mx-auto p-6 rounded-2xl border border-slate-800 space-y-2">
-              <span className="text-slate-400 text-xs sm:text-sm line-through uppercase font-semibold tracking-wider">Regular Value: 35,000 NGN</span>
-              <div className="text-3xl sm:text-5xl font-black text-white">
-                Your Investment Today:{" "}
-                <span className="text-emerald-400 block sm:inline">Only [7,500 NGN]</span>
-              </div>
-              <p className="text-xs text-emerald-400 font-medium pt-1">
-                ✓ One-time investment. Zero hidden software fees. Lifetime workbook access.
-              </p>
-            </div>
-
-            {/* CTA Button */}
-            <div className="space-y-3">
-              <a
-                href="https://www.mytimedia.com.ng"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCtaClick("Final Closing Block CTA");
-                }}
-                className="inline-flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xl sm:text-2xl py-5 px-8 sm:px-12 rounded-2xl shadow-2xl shadow-emerald-500/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto text-center border-2 border-emerald-400"
-              >
-                <span>👉 SECURE YOUR SEAT & WORKBOOK NOW! 👈</span>
-              </a>
-              <div className="text-xs text-slate-400 flex items-center justify-center gap-2">
-                <Lock className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Redirects directly to www.mytimedia.com.ng secure payment gateway</span>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* 7. BULLETPROOF GUARANTEE BOX */}
-        <section className="max-w-4xl mx-auto px-4">
-          <div className="bg-slate-900/90 rounded-3xl border border-slate-800 p-6 sm:p-10 relative overflow-hidden shadow-xl">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-              <div className="w-20 h-20 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
-                <ShieldCheck className="w-12 h-12 text-emerald-400" />
-              </div>
-              <div className="space-y-3 text-center sm:text-left">
-                <div className="inline-block px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 font-extrabold text-xs border border-emerald-800 uppercase tracking-widest">
-                  100% No-Risk Action-Taker Guarantee
-                </div>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white">
-                  Try It Entirely Risk-Free
-                </h3>
-                <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                  Attend the 2-Day Live WhatsApp Screen-Share Bootcamp, implement the simple steps, and if you don't have your automated AI PDF business built and ready to accept payments by Sunday night, simply send us a message in the WhatsApp group. We will refund every single Kobo of your 7,500 NGN investment on the spot—no questions asked.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 8. FAQ ACCORDION PANEL */}
-        <section className="max-w-3xl mx-auto px-4">
-          <div className="text-center mb-10 space-y-2">
-            <span className="text-slate-400 text-xs font-extrabold tracking-widest uppercase">Got Questions?</span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-white">Frequently Asked Questions</h2>
-          </div>
-
-          <div className="space-y-3">
-            {[
-              {
-                q: "Is this a 100% interactive class with questions and answers sessions?",
-                a: "Yes, absolutely! It is a 100% interactive class featuring dedicated Questions and Answers (Q&A) sessions. You can ask questions directly during the screen-share, get instant feedback on your AI PDF setup, and resolve any technical blockers live on the spot."
-              },
-              {
-                q: "Do I need a laptop, or can I participate entirely using my smartphone?",
-                a: "You can participate 100% using your smartphone! All live screen-share sessions, Claude AI prompts, Canva designs, and Meta ad setups are demonstrated directly in a mobile-friendly view so you can build on any device."
-              },
-              {
-                q: "Do I need prior writing skills or technical experience?",
-                a: "No prior experience or writing skills are required. Claude AI and our Master Prompt Vault handle 95% of the writing, outlining, and structuring for you."
-              },
-              {
-                q: "Are there any hidden monthly costs or paid software required?",
-                a: "Zero hidden costs! We utilize 100% free AI writing tools, free Canva accounts, and free storefront setups. You only need your 7,500 NGN bootcamp ticket."
-              },
-              {
-                q: "How will I access the 2-Day Live WhatsApp Sessions?",
-                a: "Immediately after securing your seat on www.mytimedia.com.ng, you will be redirected to the private VIP WhatsApp group link and receive your workbook access token."
-              },
-              {
-                q: "What if I miss a live screen-share session?",
-                a: "Don't worry! All live sessions are recorded in high quality and posted directly inside the VIP WhatsApp group along with step-by-step PDF slide walkthroughs."
-              }
-            ].map((faq, idx) => (
-              <div 
-                key={idx} 
-                className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all"
-              >
-                <button
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full text-left p-5 flex items-center justify-between gap-4 font-bold text-white text-sm sm:text-base hover:bg-slate-800/50 transition-colors"
-                >
-                  <span>{faq.q}</span>
-                  {openFaq === idx ? (
-                    <ChevronUp className="w-5 h-5 text-emerald-400 shrink-0" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" />
-                  )}
-                </button>
-
-                <AnimatePresence>
-                  {openFaq === idx && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="px-5 pb-5 text-xs sm:text-sm text-slate-300 border-t border-slate-800/60 pt-3 leading-relaxed"
-                    >
-                      {faq.a}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="border-t border-slate-900 pt-10 pb-16 px-4 text-center text-xs text-slate-500 space-y-4">
-          <div className="flex items-center justify-center gap-2 text-slate-400 font-extrabold text-sm">
-            <MessageCircle className="w-4 h-4 text-emerald-400" />
-            <span>2-Day Live WhatsApp AI PDF Bootcamp</span>
-          </div>
-          <p className="max-w-md mx-auto">
-            © {new Date().getFullYear()} AI PDF Bootcamp. All rights reserved. This site is not affiliated with or endorsed by Meta, Facebook, Instagram, or WhatsApp.
-          </p>
-          <div className="flex justify-center gap-4 text-slate-400 font-medium">
-            <a href="https://www.mytimedia.com.ng" className="hover:text-emerald-400 transition-colors">Privacy Policy</a>
-            <span>•</span>
-            <a href="https://www.mytimedia.com.ng" className="hover:text-emerald-400 transition-colors">Terms of Service</a>
-            <span>•</span>
-            <a href="https://www.mytimedia.com.ng" className="hover:text-emerald-400 transition-colors">Support</a>
 
